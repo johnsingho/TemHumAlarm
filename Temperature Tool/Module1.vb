@@ -762,39 +762,48 @@ Module Module1
         Con.Close()
         Return InsertMacString
     End Function
-    Public Function RetrunAddress_num(ByVal num As String) As String
+    Public Function RetrunAddress_num(ByVal num As String) As Tuple(Of String, Int32)
         Dim AddressString As String = ""
+        Dim Port As Int32 = 5300
         Dim Con As New SqlClient.SqlConnection
         Con.ConnectionString = SqlConnectString
         Dim Cmd As New SqlClient.SqlCommand
         Con.Open()
         Cmd.Connection = Con
         Dim dr As SqlDataReader = Nothing
-        Cmd.CommandText = "Select IPaddress  From " & IPAddressAndLocationManageTableName & " Where num='" & num & "' and isopen=1"
+        Cmd.CommandText = "Select IPaddress,Port  From " & IPAddressAndLocationManageTableName & " Where num='" & num & "' and isopen=1"
         dr = Cmd.ExecuteReader
         If dr.Read Then
             If dr("IPaddress") IsNot DBNull.Value Then
                 AddressString = dr("IPaddress")
             End If
+            If dr("Port") IsNot DBNull.Value Then
+                Port = dr("Port")
+            End If
         End If
         dr.Close()
         Con.Close()
-        Return AddressString
+        Dim ret As Tuple(Of String, Int32) = New Tuple(Of String, Int32)(AddressString, Port)
+        Return ret
     End Function
     '通过location 去获取IP，在主页面的button中调用
-    Public Function RetrunAddress_Location(ByVal Location As String) As String
+    Public Function RetrunAddress_Location(ByVal Location As String) As Tuple(Of String, Int32)
         Dim AddressString As String = ""
+        Dim Port As Int32 = 5300
         Dim Con As New SqlClient.SqlConnection
         Con.ConnectionString = SqlConnectString
         Dim Cmd As New SqlClient.SqlCommand
         Con.Open()
         Cmd.Connection = Con
         Dim dr As SqlDataReader = Nothing
-        Cmd.CommandText = "Select IPaddress,num From " & IPAddressAndLocationManageTableName & " Where location='" & Location & "'and isopen=1"
+        Cmd.CommandText = "Select IPaddress,Port,num From " & IPAddressAndLocationManageTableName & " Where location='" & Location & "'and isopen=1"
         dr = Cmd.ExecuteReader
         If dr.Read Then
             If dr("IPaddress") IsNot DBNull.Value Then
                 AddressString = dr("IPaddress")
+            End If
+            If dr("Port") IsNot DBNull.Value Then
+                Port = dr("Port")
             End If
             If dr("num") IsNot DBNull.Value Then
                 InsertMacString = dr("num")
@@ -802,7 +811,9 @@ Module Module1
         End If
         dr.Close()
         Con.Close()
-        Return AddressString
+
+        Dim ret As Tuple(Of String, Int32) = New Tuple(Of String, Integer)(AddressString, Port)
+        Return ret
     End Function
 
     ' 读取XMLconfig.ini

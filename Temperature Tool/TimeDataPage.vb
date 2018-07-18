@@ -51,9 +51,9 @@ Public Class TimeDataPage
                 End If
                 Dim ChksmString As String = Hex(&H23 + Val("&H" & Val(MACTextboxString)))
                 Dim SendText As String = "55 AA " & MACTextboxString & " 23 " & ChksmString
-                Dim AddressString As String = RetrunAddress_Location(LocationArr(j))
+                Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(LocationArr(j))
                 SendHex = True
-                Dim RString As String = Connect(AddressString, SendText)
+                Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
                 If RString <> "" Then
                     ' Call DisplayTem(RString)
                     Dim Str2() As String = RString.Split(" ")

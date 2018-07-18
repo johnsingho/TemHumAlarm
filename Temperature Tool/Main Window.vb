@@ -239,8 +239,8 @@ Public Class Form1
                 Call AllOpen()
                 Exit For
             End If
-            Dim IPaddressString As String = RetrunAddress_num(Val(SendDataGroup(MacInt)))
-            Dim RString As String = Connect(IPaddressString, SendText)
+            Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_num(Val(SendDataGroup(MacInt)))
+            Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
             'Dim RString As String = Connect("10.201.58.55", SendText)
             If RString <> "" Then
                 Call Temperature(RString)
@@ -287,13 +287,13 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP！"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -353,8 +353,8 @@ Public Class Form1
         ' ChksmString = Mid(ChksmString, ChksmString.Length - 2 + 1, 2)
 
         Dim SendText As String = "55 AA " & MACTextboxString & " 20 " & SecondString & " " & MinuteString & " " & HourString & " " & WeeklyString & " " & DayString & " " & MonthString & " " & YearString & " " & ChksmString
-        Dim AddressString As String = RetrunAddress_Location(Trim(SetDateTimeMACTextBox.Text))
-        Dim RString As String = Connect(AddressString, SendText)
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Trim(SetDateTimeMACTextBox.Text))
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         'Dim RString As String = Connect("10.201.58.55", SendText)
         If RString <> "" Then
             Call Temperature(RString)
@@ -420,14 +420,14 @@ Public Class Form1
             Exit Sub
         End If
 
-        Dim IPaddress As String = RetrunAddress_Location(Location)  ' "10.201.60.223" 
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)  ' "10.201.60.223" 
 
-        If IPaddress = "" Then
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP!"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         Else
@@ -457,13 +457,13 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP!"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -517,15 +517,15 @@ Public Class Form1
         Dim SendText As String = "55 AA " & MACTextboxString & " 23 " & ChksmString
         MacInt = Int(MACTextboxString)
         SendHex = True
-        Dim AddressString As String = RetrunAddress_Location(Trim(ReadDataMACTextBox.Text))
-        Dim RString As String = Connect(AddressString, SendText)
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Trim(ReadDataMACTextBox.Text))
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call CheckInsertTemperature(RString)
             Call ReadDateTimeButton_Click(sender, e)
             Call SelectStatusButton_Click(sender, e)
             Call ReadDateAndWeeklyButton_Click(sender, e)
         Else
-            Running_Info.Text = ReadDataMACTextBox.Text & Environment.NewLine & AddressString _
+            Running_Info.Text = ReadDataMACTextBox.Text & Environment.NewLine & IPaddress.Item1 _
                                 & vbTab & "通信异常！"
             Running_Info.ForeColor = Color.Red
         End If
@@ -622,13 +622,13 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP！"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -699,14 +699,14 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
 
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP！"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -758,14 +758,14 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP！"
             Running_Info.ForeColor = Color.Red
 
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -814,13 +814,13 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim IPaddress As String = RetrunAddress_Location(Location)
-        If IPaddress = "" Then
+        Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Location)
+        If IPaddress.Item1 = "" Then
             Running_Info.Text = "你输入的Location错误，未找到与之对应的IP！"
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress, SendText)
+        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
         If RString <> "" Then
             Call Temperature(RString)
         End If
