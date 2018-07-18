@@ -184,8 +184,7 @@ Module Com_And_Internet_Connect
     End Function
 
     ' 发送指令给设备，读取返回值
-    ' TODO 远程端口可能不是5300
-    Public Function Connect(server As [String], message As [String], remotePort As Int32) As String
+    Public Function Connect(server As [String], remotePort As Int32, message As [String]) As String
         Dim responseData As [String] = [String].Empty
         Dim LocationString As String = RetrunLocation_num(Val(SendDataGroup(MacInt)))
         Dim stream As NetworkStream = Nothing
@@ -229,7 +228,6 @@ Module Com_And_Internet_Connect
                     If client IsNot Nothing Then
                         If client.Connected = True Then
                             client.Close()
-
                         End If
                     End If
                 End Try

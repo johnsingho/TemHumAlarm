@@ -53,7 +53,7 @@ Public Class TimeDataPage
                 Dim SendText As String = "55 AA " & MACTextboxString & " 23 " & ChksmString
                 Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(LocationArr(j))
                 SendHex = True
-                Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+                Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
                 If RString <> "" Then
                     ' Call DisplayTem(RString)
                     Dim Str2() As String = RString.Split(" ")
@@ -122,32 +122,22 @@ Public Class TimeDataPage
     ' 递归重新设定控件的大小和位置
     Private Sub setControls(ByVal newx As Single, ByVal newy As Single, ByVal obj As Object)
         Try
-
-
             For Each con As Control In obj.Controls
-
                 con.AutoSize = False
-
                 Dim mytag() As String = con.Tag.ToString.Split(":")
 
                 con.Width = mytag(0) * newx
-
                 con.Height = mytag(1) * newy
-
                 con.Left = mytag(2) * newx
-
                 con.Top = mytag(3) * newy
 
                 ' 计算字体缩放比例, 缩放字体
-
                 Dim currentSize As Single = (mytag(1) * newy * mytag(4)) / mytag(1)
-
                 con.Font = New Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit)
 
                 ' 如果是容器控件, 则递归继续缩放
 
                 If con.Controls.Count > 0 Then
-
                     setControls(newx, newy, con)
                 End If
             Next
@@ -164,9 +154,7 @@ Public Class TimeDataPage
             Exit Sub
         End If
         Dim newx As Single = Me.Width / x
-
         Dim newy As Single = Me.Height / y
-
         setControls(newx, newy, Me)
 
     End Sub

@@ -171,23 +171,16 @@ Public Class Form1
     ' 递归重新设定控件的大小和位置
     Private Sub setControls(ByVal newx As Single, ByVal newy As Single, ByVal obj As Object)
         Try
-
-
             For Each con As Control In obj.Controls
-
                 con.AutoSize = False
-
                 Dim mytag() As String = con.Tag.ToString.Split(":")
-
                 con.Width = mytag(0) * newx
                 con.Height = mytag(1) * newy
                 con.Left = mytag(2) * newx
                 con.Top = mytag(3) * newy
 
                 ' 计算字体缩放比例, 缩放字体
-
                 Dim currentSize As Single = (mytag(1) * newy * mytag(4)) / mytag(1)
-
                 con.Font = New Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit)
 
                 ' 如果是容器控件, 则递归继续缩放
@@ -201,17 +194,13 @@ Public Class Form1
     End Sub
 
     Private Sub frmDl_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
-
         ' 得到现在窗体的大小, 然后根据原始大小计算缩放比例
-
         If x = 0 Then
             Exit Sub
         End If
         Dim newx As Single = Me.Width / x
         Dim newy As Single = Me.Height / y
-
         setControls(newx, newy, Me)
-
     End Sub
 
     '定时发送数据
@@ -240,7 +229,7 @@ Public Class Form1
                 Exit For
             End If
             Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_num(Val(SendDataGroup(MacInt)))
-            Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+            Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
             'Dim RString As String = Connect("10.201.58.55", SendText)
             If RString <> "" Then
                 Call Temperature(RString)
@@ -293,7 +282,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -354,7 +343,7 @@ Public Class Form1
 
         Dim SendText As String = "55 AA " & MACTextboxString & " 20 " & SecondString & " " & MinuteString & " " & HourString & " " & WeeklyString & " " & DayString & " " & MonthString & " " & YearString & " " & ChksmString
         Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Trim(SetDateTimeMACTextBox.Text))
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         'Dim RString As String = Connect("10.201.58.55", SendText)
         If RString <> "" Then
             Call Temperature(RString)
@@ -427,7 +416,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         Else
@@ -463,7 +452,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -518,7 +507,7 @@ Public Class Form1
         MacInt = Int(MACTextboxString)
         SendHex = True
         Dim IPaddress As Tuple(Of String, Int32) = RetrunAddress_Location(Trim(ReadDataMACTextBox.Text))
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call CheckInsertTemperature(RString)
             Call ReadDateTimeButton_Click(sender, e)
@@ -530,6 +519,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
         End If
     End Sub
+
     Private Sub SetTemperatureTargetButton_Click(sender As Object, e As EventArgs) Handles SetTemperatureTargetButton.Click
         Running_Info.Text = ""
         Dim Location As String = Trim(SetTemperatureTargetMacTextBox.Text)
@@ -628,7 +618,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -706,7 +696,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -765,7 +755,7 @@ Public Class Form1
 
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If
@@ -820,7 +810,7 @@ Public Class Form1
             Running_Info.ForeColor = Color.Red
             Exit Sub
         End If
-        Dim RString As String = Connect(IPaddress.Item1, SendText, IPaddress.Item2)
+        Dim RString As String = Connect(IPaddress.Item1, IPaddress.Item2, SendText)
         If RString <> "" Then
             Call Temperature(RString)
         End If

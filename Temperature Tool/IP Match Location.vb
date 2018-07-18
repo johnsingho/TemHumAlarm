@@ -40,7 +40,7 @@ Public Class IP_Match_Location
         y = Me.Height
         setTag(Me)
         Me.Location = New Point((My.Computer.Screen.WorkingArea.Width - Me.Width) / 2, (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2)
-   
+
     End Sub
     ' 递归取控件的原始大小和位置，用tag来纪录
 
@@ -213,10 +213,14 @@ Public Class IP_Match_Location
                 SqlDelete("Delete From " & IPAddressAndLocationManageTableName & " Where ID='" & SaveID & "'")
                 Call ReLoadMainWindow()
             End If
-            FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,Port as 端口, location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
+            RefreshDataGridView()
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub RefreshDataGridView()
+        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,Port as 端口, location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
     End Sub
 
     Private Sub DataGridView1_CellValueChanged_1(sender As Object, e As DataGridViewCellEventArgs) Handles DataGridView1.CellValueChanged
@@ -232,53 +236,53 @@ Public Class IP_Match_Location
                 Dim mycommandGridnum As New SqlCommand(CheckGridnum, conn)
                 If Num <= 0 Then
                     MsgBox("编码 只能输入大于0的数字")
-                    FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
+                    RefreshDataGridView()
                     Exit Sub
                 End If
                 If mycommandGridnum.ExecuteScalar() Then
-                        MsgBox("请检查 编码 是否已经存在")
-                        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
-                        Exit Sub
-                    End If
-                ElseIf i = 4 Then
-                    Dim IPAddress As String = Trim(DataGridView1(4, e.RowIndex).Value)
+                    MsgBox("请检查 编码 是否已经存在")
+                    RefreshDataGridView()
+                    Exit Sub
+                End If
+            ElseIf i = 4 Then
+                Dim IPAddress As String = Trim(DataGridView1(4, e.RowIndex).Value)
                 Dim CheckGridIP As String = "select count(IPaddress) from " & IPAddressAndLocationManageTableName & " where IPaddress= '" & IPAddress & "'"
                 Dim mycommandGridIP As New SqlCommand(CheckGridIP, conn)
-                    If Not System.Text.RegularExpressions.Regex.IsMatch(IPAddress, "^(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$") Then
-                        'sender.text 表示获取当前输入的内容值
-                        MsgBox(" '" & IPAddress & " '服务器地址输入不正确。")
-                        'IPAddress.Focus()
-                        DataGridView1.BeginEdit(True)
-                        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num) ", DataGridView1)
-                        Exit Sub
-                    ElseIf mycommandGridIP.ExecuteScalar() Then
-                        MsgBox("请检查 IP 是否已经存在")
-                        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
-                        Exit Sub
-                    End If
-                ElseIf i = 5 Then
-                    Dim Location As String = Trim(DataGridView1(5, e.RowIndex).Value)
+                If Not System.Text.RegularExpressions.Regex.IsMatch(IPAddress, "^(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$") Then
+                    'sender.text 表示获取当前输入的内容值
+                    MsgBox(" '" & IPAddress & " '服务器地址输入不正确。")
+                    'IPAddress.Focus()
+                    DataGridView1.BeginEdit(True)
+                    RefreshDataGridView()
+                    Exit Sub
+                ElseIf mycommandGridIP.ExecuteScalar() Then
+                    MsgBox("请检查 IP 是否已经存在")
+                    RefreshDataGridView()
+                    Exit Sub
+                End If
+            ElseIf i = 5 Then
+                Dim Location As String = Trim(DataGridView1(5, e.RowIndex).Value)
                 Dim CheckGridLocation As String = "select count(location) from " & IPAddressAndLocationManageTableName & " where location = '" & Location & "'"
                 Dim mycommandGridLocation As New SqlCommand(CheckGridLocation, conn)
-                    If mycommandGridLocation.ExecuteScalar() Then
-                        MsgBox("请检查 设备位置 是否已经存在")
-                        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
-                        Exit Sub
-                    End If
-                ElseIf i = 7 Then
-                    Dim MachineID As String = Trim(DataGridView1(7, e.RowIndex).Value)
+                If mycommandGridLocation.ExecuteScalar() Then
+                    MsgBox("请检查 设备位置 是否已经存在")
+                    RefreshDataGridView()
+                    Exit Sub
+                End If
+            ElseIf i = 7 Then
+                Dim MachineID As String = Trim(DataGridView1(7, e.RowIndex).Value)
                 Dim CheckGridMachineID As String = "select count(machineID) from " & IPAddressAndLocationManageTableName & " where machineID= '" & MachineID & "'"
                 Dim mycommandGridMachineID As New SqlCommand(CheckGridMachineID, conn)
-                    If mycommandGridMachineID.ExecuteScalar() Then
-                        MsgBox("请检查 设备ID 是否已经存在")
-                        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
-                        Exit Sub
-                    End If
-                ElseIf i = 8 Then
-                    Dim Deadine As String = Trim(DataGridView1(8, e.RowIndex).Value)
+                If mycommandGridMachineID.ExecuteScalar() Then
+                    MsgBox("请检查 设备ID 是否已经存在")
+                    RefreshDataGridView()
+                    Exit Sub
+                End If
+            ElseIf i = 8 Then
+                Dim Deadine As String = Trim(DataGridView1(8, e.RowIndex).Value)
                 If Not IsDate(Deadine & " 00:00:00") Then
                     MsgBox("日期输入不合法，请重新输入")
-                    FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
+                    RefreshDataGridView()
                     Exit Sub
                 End If
             End If
