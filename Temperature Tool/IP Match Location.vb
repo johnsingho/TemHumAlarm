@@ -33,8 +33,7 @@ Public Class IP_Match_Location
         buttonOP1.Frozen = True
         buttonOP1.ReadOnly = True
         DataGridView1.Columns.Add(buttonOP1)
-        FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,Port as 端口,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
-
+        RefreshDataGridView()
 
         x = Me.Width
         y = Me.Height
@@ -167,7 +166,7 @@ Public Class IP_Match_Location
                     ' HumidityStandard.Text = "湿度标准"
                     ' MachineID.Text = ""
                     Deadline.Text = Date.Now
-                    FindDataToDataGridView("Select ID,num as 编号,IPaddress as IP,Port as 端口,location as 设备位置,standard as 标准,machineID as 设备ID,deadline as 到期日期,isopen as 开启,Mac from " & IPAddressAndLocationManageTableName & " order by convert(int,num)", DataGridView1)
+                    RefreshDataGridView()
                     'Else
                 End If
             Else
@@ -260,7 +259,7 @@ Public Class IP_Match_Location
                     RefreshDataGridView()
                     Exit Sub
                 End If
-            ElseIf i = 5 Then
+            ElseIf i = 6 Then
                 Dim Location As String = Trim(DataGridView1(5, e.RowIndex).Value)
                 Dim CheckGridLocation As String = "select count(location) from " & IPAddressAndLocationManageTableName & " where location = '" & Location & "'"
                 Dim mycommandGridLocation As New SqlCommand(CheckGridLocation, conn)
@@ -269,7 +268,7 @@ Public Class IP_Match_Location
                     RefreshDataGridView()
                     Exit Sub
                 End If
-            ElseIf i = 7 Then
+            ElseIf i = 8 Then
                 Dim MachineID As String = Trim(DataGridView1(7, e.RowIndex).Value)
                 Dim CheckGridMachineID As String = "select count(machineID) from " & IPAddressAndLocationManageTableName & " where machineID= '" & MachineID & "'"
                 Dim mycommandGridMachineID As New SqlCommand(CheckGridMachineID, conn)
@@ -278,7 +277,7 @@ Public Class IP_Match_Location
                     RefreshDataGridView()
                     Exit Sub
                 End If
-            ElseIf i = 8 Then
+            ElseIf i = 9 Then
                 Dim Deadine As String = Trim(DataGridView1(8, e.RowIndex).Value)
                 If Not IsDate(Deadine & " 00:00:00") Then
                     MsgBox("日期输入不合法，请重新输入")
