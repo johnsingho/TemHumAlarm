@@ -59,7 +59,7 @@ Module Module1
         DataToXml()
         If ErrList <> "" Then
             'Alert_Window.Show()
-            Alert_Window.ShowTimeout(ErrList, 20 * 1000) '20s之后自动关闭
+            Alert_Window.ShowTimeout(ErrList, 15 * 1000) '15s之后自动关闭
         Else
             Alert_Window.Close()
         End If

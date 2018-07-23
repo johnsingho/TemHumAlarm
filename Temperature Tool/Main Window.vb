@@ -149,7 +149,7 @@ Public Class Form1
         Me.Location = New Point((My.Computer.Screen.WorkingArea.Width - Me.Width) / 2, (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2)
 
         '开启用于测试
-        BtnTest.Visible = False
+        'BtnTest.Visible = True
     End Sub
 
     ' 递归取控件的原始大小和位置，用tag来纪录
@@ -1149,6 +1149,6 @@ Public Class Form1
 
     ' 2018-02-27 此按钮仅用于测试
     Private Sub BtnTest_Click(sender As Object, e As EventArgs) Handles BtnTest.Click
-        Alert_Window.ShowTimeout("错误信息test", 4000)
+        Alert_Window.ShowTimeout("错误信息test", 10 * 1000)
     End Sub
 End Class
