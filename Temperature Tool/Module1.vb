@@ -10,6 +10,8 @@ Module Module1
     Public WorkLocationString As String = "" '软件工作的位置
     Public IPAddressAndLocationManageTableName As String = "" 'IP Address配置表名！
     Public SqlConnectString As String = "" 'Data Source=10.201.62.84;Initial Catalog=erecordcontrol;User ID=sa;Password=TryTest:123"
+    Public ErrorShowTimeout As Int32 = 10
+
     Public InsertMacString As Int32 = 0
     Public SendMACListString As String = ""
     Public AlertWindowV As Boolean = False
