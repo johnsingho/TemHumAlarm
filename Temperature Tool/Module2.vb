@@ -6,11 +6,8 @@ Imports System.IO
 
 '网络控制器命名空间.
 Imports System.Threading
-Imports System.Linq
-Imports System.Text
 Imports System.Net
 Imports System.Net.Sockets
-Imports System.Collections
 Imports System.Drawing.Drawing2D
 
 ''' <summary>
@@ -37,6 +34,7 @@ Module Module2
     Public tm As Integer = 0
     Public bmsize As Size
     Public BmWhere As String = "" '为区分是交接与信息截图时所用.
+
     '网络控件器模块!
     Public Function TurnOnLed(ByVal num As Integer, ByVal Number As Int16, ByVal ip() As Byte, ByVal localPort As Integer, ByVal remotehostport As Integer) As Boolean
         _ipaddress = New IPAddress(ip)
@@ -68,8 +66,6 @@ Module Module2
         udpClient.Close()
         Return True
     End Function
-
-
     Public Sub SendMessage(ByVal IP As String, ByVal SendMsg As String)
         Try
             If IP <> "" Then
@@ -489,13 +485,11 @@ Module Module2
 
     End Function
     Public Function ReturnWorkTime(ByVal StartTime As Date, ByVal EndTime As Date, ByVal UserID As Int32, ByVal projectID As Int32, ByVal RunningType As String, ByVal Shift As String) As Int64
-
         '计算二个时间的间隔天数。
         Dim DayInt As Int32 = Math.Truncate((EndTime.ToFileTime - StartTime.ToFileTime) / 864000000000)
 
         '取出整天后的开始时间。
         Dim SaveStartTime As Date = StartTime.AddDays(DayInt)
-
 
         Dim Con As New SqlConnection
         Dim Cmd As New SqlCommand

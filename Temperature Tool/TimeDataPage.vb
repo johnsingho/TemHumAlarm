@@ -103,17 +103,12 @@ Public Class TimeDataPage
         Me.Location = New Point((My.Computer.Screen.WorkingArea.Width - Me.Width) / 2, (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2)
     End Sub
     ' 递归取控件的原始大小和位置，用tag来纪录
-
     Private Sub setTag(ByVal obj As Object)
-
         For Each con As Control In obj.Controls
-
             con.Tag = con.Width & ":" & con.Height & ":" & con.Left & ":" & con.Top & ":" & con.Font.Size
 
             ' 如果是容器控件, 则递归继续纪录
-
             If con.Controls.Count > 0 Then
-
                 setTag(con)
             End If
         Next
@@ -136,7 +131,6 @@ Public Class TimeDataPage
                 con.Font = New Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit)
 
                 ' 如果是容器控件, 则递归继续缩放
-
                 If con.Controls.Count > 0 Then
                     setControls(newx, newy, con)
                 End If
@@ -147,9 +141,7 @@ Public Class TimeDataPage
     End Sub
 
     Private Sub frmDl_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
-
         ' 得到现在窗体的大小, 然后根据原始大小计算缩放比例
-
         If x = 0 Then
             Exit Sub
         End If
@@ -158,8 +150,6 @@ Public Class TimeDataPage
         setControls(newx, newy, Me)
 
     End Sub
-
-
 
     Private Sub GetDataTimer_Tick_1(sender As Object, e As EventArgs) Handles GetDataTimer.Tick
         MoniPanel.Controls.Clear()

@@ -157,15 +157,10 @@ Public Class Form1
 
     ' 递归取控件的原始大小和位置，用tag来纪录
     Private Sub setTag(ByVal obj As Object)
-
         For Each con As Control In obj.Controls
-
             con.Tag = con.Width & ":" & con.Height & ":" & con.Left & ":" & con.Top & ":" & con.Font.Size
-
             ' 如果是容器控件, 则递归继续纪录
-
             If con.Controls.Count > 0 Then
-
                 setTag(con)
             End If
         Next

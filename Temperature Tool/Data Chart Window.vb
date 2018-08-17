@@ -27,53 +27,35 @@ Public Class Data_Chart_Window
         Me.Location = New Point((My.Computer.Screen.WorkingArea.Width - Me.Width) / 2, (My.Computer.Screen.WorkingArea.Height - Me.Height) / 2)
     End Sub
     ' 递归取控件的原始大小和位置，用tag来纪录
-
     Private Sub setTag(ByVal obj As Object)
-
         For Each con As Control In obj.Controls
-
             con.Tag = con.Width & ":" & con.Height & ":" & con.Left & ":" & con.Top & ":" & con.Font.Size
-
             ' 如果是容器控件, 则递归继续纪录
-
             If con.Controls.Count > 0 Then
-
                 setTag(con)
             End If
         Next
-
     End Sub
 
     ' 递归重新设定控件的大小和位置
-
     Private Sub setControls(ByVal newx As Single, ByVal newy As Single, ByVal obj As Object)
         Try
 
-
             For Each con As Control In obj.Controls
-
                 con.AutoSize = False
-
                 Dim mytag() As String = con.Tag.ToString.Split(":")
 
                 con.Width = mytag(0) * newx
-
                 con.Height = mytag(1) * newy
-
                 con.Left = mytag(2) * newx
-
                 con.Top = mytag(3) * newy
 
                 ' 计算字体缩放比例, 缩放字体
-
                 Dim currentSize As Single = (mytag(1) * newy * mytag(4)) / mytag(1)
-
                 con.Font = New Font(con.Font.Name, currentSize, con.Font.Style, con.Font.Unit)
 
                 ' 如果是容器控件, 则递归继续缩放
-
                 If con.Controls.Count > 0 Then
-
                     setControls(newx, newy, con)
                 End If
             Next
@@ -85,14 +67,11 @@ Public Class Data_Chart_Window
     Private Sub frmDl_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
 
         ' 得到现在窗体的大小, 然后根据原始大小计算缩放比例
-
         If x = 0 Then
             Exit Sub
         End If
         Dim newx As Single = Me.Width / x
-
         Dim newy As Single = Me.Height / y
-
         setControls(newx, newy, Me)
 
     End Sub
